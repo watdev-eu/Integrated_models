@@ -6,7 +6,7 @@ This repository contains code to integrate 3 models for agricultural decision su
  
 To run the code, please copy the original [DSSAT code](https://github.com/DSSAT/dssat-csm-os) to your local machine and update the symbolic links in the repository to match the corresponding directories on your local system.
 
-The same should be done with the original [SWAT](https://github.com/swat-model/swatplus) and [MODFLOW](https://github.com/MODFLOW-ORG/modflow6) source codes.
+Similar can be done with the source codes of https://swat.tamu.edu/software/swat-modflow/.
 
 The code still needs to be compiled on your local machine.
 To compile it, use the command `make swat`. You can change the output directory of the binary file which is saved in Make file, and it will then copy the binary wherever you prefer.
@@ -16,12 +16,25 @@ Use only symbolic links to connect to those folders.
 
 ## Docker
 
-Run the model in a docker container with below steps:
+Above steps are prepared in [Dockerfile](./Dockerfile). Build the container with:
 
 ```
 docker build -t watdev/intmod
+```
+
+Run a shell in the container with below step:
+
+```
 docker run -it watdev/intmod bash
 ```
+
+On the container, try `make swat` to build and run `./EGYPT/swat > test_run_1.log  2>&1 &`
+
+Some comments
+- clone the repo inside container (do not copy in files) else symlinks get broken
+- many errors when running on recent ubunty with libgfortran5 -> downgraded to 18 libgfortran 4
+- use zip file from https://swat.tamu.edu/software/swat-modflow/, because it includes many modules
+
 
 ## Project
 
